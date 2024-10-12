@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Html Css and JavaScript Quiz game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Space Grotesk", sans-serif;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            height: 100vh;
+            background-attachment: fixed;
+            margin: 0;
+            flex-direction: column;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            position: relative;
+            padding: 20px;
+            width: 500px;
+            height: 400px;
+            color: #fff;
+            background: #151320;
+            font: 700 2rem 'Montserrat';
+            text-align: center;
+            border-radius: 5em 1em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box::before,
+        .box::after {
+            content: '';
+            z-index: -1;
+            position: absolute;
+            width: calc(100% + 30px);
+            height: calc(100% + 30px);
+            top: -15px;
+            left: -15px;
+            border-radius: 5em 1em;
+            background: linear-gradient(45deg,
+                    #ffff00, #00ff00, #0099ff, #001aff, #a200ff, #ff0055, #ff0000,
+                    #ff0055, #ff0000, #ffff00, #00ff00, #0099ff, #001aff, #a200ff);
+            background-size: 300%;
+            animation: border 12s linear infinite;
+        }
+
+        .box::after {
+            filter: blur(50px);
+        }
+
+        @keyframes border {
+
+            0%,
+            100% {
+                background-position: 0 0;
+            }
+
+            50% {
+                background-position: 300%;
+            }
+        }
+
+        .start_btn button {
+            position: relative;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            background-color: #151320;
+            border-radius: 20px;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .start_btn button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 3px;
+            background: linear-gradient(45deg,
+                    #ffff00, #00ff00, #0099ff, #001aff, #a200ff, #ff0055, #ff0000,
+                    #ff0055, #ff0000, #ffff00, #00ff00, #0099ff, #001aff, #a200ff);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            pointer-events: none;
+        }
+
+        .content {
+            color: #333;
+            text-align: center;
+        }
+
+        .quiz_box,
+        .result_box,
+        .info_box {
+            display: none;
+            text-align: center;
+        }
+
+        .info_box {
+            padding: 23px;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .info-title {
+            font-weight: bold;
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        .info {
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 20px;
+        }
+
+        .buttons button {
+            position: relative;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            background-color: #151320;
+            border-radius: 20px;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .buttons button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 3px;
+            background: linear-gradient(45deg,
+                    #ffff00, #00ff00, #0099ff, #001aff, #a200ff, #ff0055, #ff0000,
+                    #ff0055, #ff0000, #ffff00, #00ff00, #0099ff, #001aff, #a200ff);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            pointer-events: none;
+        }
+
+        .quit {
+            background-color: white;
+        }
+
+        .restart {
+            background-color: white;
+        }
+
+        .option_list button {
+            margin: 10px 0;
+            padding: 10px 15px;
+            border: none;
+            font-size: 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .buttons button {
+            position: relative;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            background-color: #151320;
+            border-radius: 20px;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .buttons button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 3px;
+            background: linear-gradient(45deg,
+                    #ffff00, #00ff00, #0099ff, #001aff, #a200ff, #ff0055, #ff0000,
+                    #ff0055, #ff0000, #ffff00, #00ff00, #0099ff, #001aff, #a200ff);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            pointer-events: none;
+        }
+
+        .timer {
+            font-size: 18px;
+            margin: 15px 0;
+            color: #fff;
+        }
+
+        .score_text {
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .que_text {
+            color: #fff;
+            margin-bottom: 33px;
+            font-size: 25px;
+        }
+
+        .option_list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .result_box button {
+            position: relative;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            background-color: #151320;
+            border-radius: 20px;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .result_box button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 3px;
+            background: linear-gradient(45deg,
+                    #ffff00, #00ff00, #0099ff, #001aff, #a200ff, #ff0055, #ff0000,
+                    #ff0055, #ff0000, #ffff00, #00ff00, #0099ff, #001aff, #a200ff);
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            -webkit-mask-composite: xor;
+            pointer-events: none;
+        }
+
+        .text h3 {
+            background: linear-gradient(to right, #0099ff, #001aff, #a200ff, #ff0055, #ff0000,
+                    #ff0055, #ff0000, #ffff00, #00ff00, #0099ff, #001aff, #a200ff);
+            -webkit-background-clip: text;
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 40px;
+            color: transparent;
+        }
+
+        @media only screen and (max-width:412px) {
+            .box {
+                width: 388px;
+                height: 475px;
+                padding: 40px;
+            }
+
+            .que_text {
+                font-size: 18px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="text">
+        <h3>Html Css and Javascript Quiz Game</h3>
+    </div>
+    <div class="box">
+        <div class="content">
+            <!-- Start Button -->
+            <div class="start_btn">
+                <button onclick="showInfo()">Start Quiz</button>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info_box">
+                <div class="info-title"><span>Some Rules of this Quiz</span></div>
+                <div class="info-list">
+                    <div class="info">1. You will have only <span>15 seconds</span> per each question.</div>
+                    <div class="info">2. Once you select your answer, it can't be undone.</div>
+                    <div class="info">3. You can't select any option once time goes off.</div>
+                    <div class="info">4. You can't exit from the Quiz while you're playing.</div>
+                    <div class="info">5. You'll get points on the basis of your correct answers.</div>
+                </div>
+                <div class="buttons">
+                    <button class="quit" onclick="exitQuiz()">Exit Quiz</button>
+                    <button class="restart" onclick="startQuiz()">Continue</button>
+                </div>
+            </div>
+
+            <!-- Quiz Box -->
+            <div class="quiz_box">
+                <div class="que_text"></div>
+                <div class="option_list"></div>
+                <div class="timer">Time Left: <span id="timeCount">15</span></div>
+            </div>
+
+            <!-- Result Box -->
+            <div class="result_box">
+                <div class="score_text"></div>
+                <button onclick="restartQuiz()">Restart Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let questions = [
+            { question: "What does HTML stand for?", answer: "Hyper Text Markup Language", options: ["Hyper Text Preprocessor", "Hyper Text Markup Language", "Hyper Text Multiple Language", "Hyper Tool Multi Language"] },
+
+            { question: "What does CSS stand for?", answer: "Cascading Style Sheet", options: ["Common Style Sheet", "Colorful Style Sheet", "Computer Style Sheet", "Cascading Style Sheet"] },
+
+            { question: "What does PHP stand for?", answer: "Hypertext Preprocessor", options: ["Hypertext Preprocessor", "Hypertext Programming", "Hypertext Preprogramming", "Hometext Preprocessor"] },
+
+            { question: "What does API stand for?", answer: "Application Programming Interface", options: ["Application Preprocessing Interface", "Application Programming Interface", "Advanced Programming Interface", "Automated Processing Interface"] },
+
+            { question: "Which CSS property controls the text size?", answer: "font-size", options: ["text-size", "font-style", "font-size", "text-font"] },
+
+            { question: "Which HTML attribute is used to define inline styles?", answer: "style", options: ["class", "style", "font", "styles"] },
+
+            { question: "Which JavaScript method is used to parse a JSON string?", answer: "JSON.parse()", options: ["JSON.parse()", "JSON.stringify()", "JSON.convert()", "JSON.load()"] },
+
+            { question: "What is the correct CSS syntax to change the background color?", answer: "background-color: blue;", options: ["bgcolor: blue;", "background-color: blue;", "color: blue;", "background: blue;"] },
+
+            { question: "How do you declare a JavaScript variable?", answer: "var x = 5;", options: ["variable x = 5;", "var x = 5;", "x = 5;", "let x = 5;"] },
+
+            { question: "What is the purpose of the <meta> tag?", answer: "To provide metadata about the HTML document", options: ["To provide metadata about the HTML document", "To include styles", "To link scripts", "To define the body of the document"] },
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let timer;
+
+        function showInfo() {
+            document.querySelector('.start_btn').style.display = 'none';
+            document.querySelector('.info_box').style.display = 'block';
+        }
+
+        function exitQuiz() {
+            alert('Exiting the Quiz');
+            window.location.reload(); // Reload the page to reset the quiz
+        }
+
+        function startQuiz() {
+            document.querySelector('.info_box').style.display = 'none';
+            document.querySelector('.quiz_box').style.display = 'block';
+            showQuestion(currentQuestion);
+            startTimer();
+        }
+
+        function showQuestion(index) {
+            const queText = document.querySelector('.que_text');
+            const optionList = document.querySelector('.option_list');
+
+            queText.innerHTML = questions[index].question;
+            optionList.innerHTML = questions[index].options.map(option => `<button onclick="selectOption('${option}')">${option}</button>`).join('');
+        }
+
+        function selectOption(option) {
+            clearInterval(timer); // Stop the timer
+            const correctAnswer = questions[currentQuestion].answer;
+
+            if (option === correctAnswer) {
+                highlightOption('correct');
+                delayedAlert(() => alert('Correct Answer!'), 500);
+                score += 1;
+            } else {
+                highlightOption('incorrect');
+                delayedAlert(() => alert('Wrong Answer! The correct answer was: ' + correctAnswer), 500);
+            }
+
+            setTimeout(() => nextQuestion(), 1000);
+        }
+
+        function highlightOption(status) {
+            const buttons = document.querySelectorAll('.option_list button');
+            buttons.forEach(button => {
+                if (button.textContent === questions[currentQuestion].answer) {
+                    button.classList.add(status);
+                }
+            });
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                showQuestion(currentQuestion);
+                startTimer();
+            } else {
+                showResult();
+            }
+        }
+
+        function startTimer() {
+            let timeLeft = 15;
+            const timeCount = document.getElementById('timeCount');
+            timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    timeCount.textContent = timeLeft;
+                } else {
+                    clearInterval(timer);
+                    delayedAlert(() => alert('Time is up! The correct answer was: ' + questions[currentQuestion].answer), 500);
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function showResult() {
+            document.querySelector('.quiz_box').style.display = 'none';
+            document.querySelector('.result_box').style.display = 'block';
+            document.querySelector('.score_text').innerHTML = `You scored ${score} out of ${questions.length}`;
+            delayedAlert(() => alert('Quiz Completed! You scored ' + score + ' out of ' + questions.length), 500);
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.querySelector('.result_box').style.display = 'none';
+            document.querySelector('.quiz_box').style.display = 'block';
+            showQuestion(currentQuestion);
+            startTimer();
+        }
+
+        function delayedAlert(callback, delay) {
+            setTimeout(callback, delay);
+        }
+    </script>
+</body>
+
+</html>
